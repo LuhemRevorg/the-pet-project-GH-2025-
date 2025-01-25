@@ -114,4 +114,48 @@ body {
     padding: 20px 0;
     font-size: 0.9rem;
   }
+
+  
+ 
+      .gif-container {
+          position: absolute;
+          top: 35%;
+          left: 0;
+          width: 100%;
+          text-align: center;
+      }
+
+      .gif {
+          position: absolute;
+          width: 120px; /* Adjust size as needed */
+          animation: roam 8s linear infinite;
+      }
+
+      @keyframes roam {
+          0% {
+              top: 35%;
+              left: 0;
+              transform: scaleX(1); /* Facing right */
+          }
+          49.9% {
+              top: 35%;
+              left: 90%;
+              transform: scaleX(1); /* Facing right */
+          }
+          50% {
+              top: 35%;
+              left: 90%;
+              transform: scaleX(-1); /* Quick flip to face left */
+          }
+          99.9% {
+              top: 35%;
+              left: 0;
+              transform: scaleX(-1); /* Facing left */
+          }
+          100% {
+              top: 35%;
+              left: 0;
+              transform: scaleX(1); /* Quick flip to face right */
+          }
+      }
   
