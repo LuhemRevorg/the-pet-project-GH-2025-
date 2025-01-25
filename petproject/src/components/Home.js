@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
+import KUTTTABC from "../images/dogge.gif"
 import '../styling/Home.css'; 
 
 function Home() {
@@ -16,6 +17,10 @@ function Home() {
         <div className="logo">🐾</div>
         <button className="login-button" onClick={handleLogin}>Login</button>
       </nav>
+      {/* Roaming Dog GIF Animation */}
+      <div className="gif-container">
+          <img src={KUTTTABC} alt="Roaming Dog" className="gif" />
+      </div>
 
       {/* Main Content */}
       <header className="header">
