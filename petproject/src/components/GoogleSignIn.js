@@ -2,7 +2,10 @@ import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
-import "../styling/GoogleSignIn.css"
+import styles from "../styling/GoogleSignIn.module.css";
+import GOOGLELOGO from "../images/googleLogo.avif";
+import DOGPAW from "../images/Dog_Paw_Print.png";
+
 
 function GoogleSignIn() {
   const navigate = useNavigate();
@@ -18,8 +21,24 @@ function GoogleSignIn() {
   };
 
   return (
-    <div className="google-sign-in">
-      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+    <div className={styles.signinContainer}>
+      <div className={styles.loginCard}>
+        <img
+          src={DOGPAW}
+          alt="Cute paw logo"
+          className={styles.logo}
+        />
+        <h1 className={styles.heading}>Welcome to Petify</h1>
+        <p className={styles.subtext}>Your furry friend's favorite place!</p>
+        <button className={styles.googleButton} onClick={handleGoogleSignIn}>
+          <img
+            src={GOOGLELOGO}
+            alt="Google Icon"
+            className={styles.googleIcon}
+          />
+          Sign in with Google
+        </button>
+      </div>
     </div>
   );
 }
