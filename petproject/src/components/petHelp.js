@@ -26,10 +26,9 @@ const PetHelp = () => {
     setSelectedOption(event.target.value);
     // Call the corresponding model function based on selected option
     if (event.target.value === '1') {
-      callModel1(petName, petBreed, petType); // Pass the pet info to the API function
+      callModel1(petName, messages); // Pass the pet info to the API function
     } else if (event.target.value === '2') {
-      callModel2(petName, petBreed, petType);
-      diet_decide(selected); // Pass the pet ID to the API function
+      diet_decide(petName, petBreed, petType); // Pass the pet ID to the API function
     } else if (event.target.value === '3') {
       callModel3(petName, petBreed, petType);
     }
