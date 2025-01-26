@@ -54,8 +54,7 @@ const Dashboard = () => {
     // Navigate with query parameters using the URLSearchParams API
     navigate(`/petHelp?name=${name}&breed=${breed}&type=${type}`);
   };
-  
-  
+ 
   const handleHome = () => {
     navigate("/");
   }
@@ -88,7 +87,7 @@ const Dashboard = () => {
           !isEditing ? (
             <div className={styles.petDetailContainer}>
               <h2 className={styles.petName}>{selectedPet.name}</h2>
-              <button className={styles.petHelpButton} onClick={() => handlePetHelp(selectedPet.name,selectedPet.breed, selectedPet.type )}>Pet Help</button>
+              <button className={styles.petHelpButton} onClick={() => handlePetHelp(selectedPet.name, selectedPet.breed, selectedPet.type)}>Pet Help</button>
               <div className={styles.petDetailSection}>
                 <div className={styles.petDetailCard}>
                   <h3>Basic Information</h3>
