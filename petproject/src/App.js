@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./components/Home";
 import GoogleSignIn from "./components/GoogleSignIn";
 import Dashboard from "./components/Dashboard";
 import AddPet from "./components/AddPet";
 import PetDetails from "./components/PetDetails";
-import PetInfoEditor from "./components/PetInfoEditor"; 
-import PetHelp from "./components/petHelp"; 
+import PetInfoEditor from "./components/PetInfoEditor";
+import PetHelp from "./components/petHelp";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -31,8 +31,11 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<GoogleSignIn />} />
+
+          {/* Protected Routes */}
           <Route
             path="/dashboard"
             element={
@@ -65,11 +68,13 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Pet Help Route (with query params) */}
           <Route
-            path="/petHelp/:id" // New route to petHelp with petId
+            path="/petHelp"
             element={
               <ProtectedRoute>
-                <PetHelp />
+                <PetHelpWithQuery />
               </ProtectedRoute>
             }
           />
@@ -78,5 +83,16 @@ function App() {
     </Router>
   );
 }
+
+// Component to handle query params for PetHelp
+const PetHelpWithQuery = () => {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const name = queryParams.get('name');
+  const breed = queryParams.get('breed');
+  const type = queryParams.get('type');
+
+  return <PetHelp name={name} breed={breed} type={type} />;
+};
 
 export default App;

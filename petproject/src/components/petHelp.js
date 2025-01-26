@@ -1,44 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../styling/petHelp.module.css';
- 
+
 const PetHelp = () => {
-  const { id } = useParams(); // Get the petId from the URL
+  // Get the pet data from the URL path parameters
+  const { name, breed, type } = useParams(); // Access path parameters
   const [selectedOption, setSelectedOption] = useState('');
   const [messages, setMessages] = useState([]);
   const navigate = useNavigate();
+
+  // New local variables for pet info
+  const petName = name;
+  const petBreed = breed;
+  const petType = type;
+  console.log(petName, petBreed, petType);
+
   const handleHome = () => {
     navigate("/");
   }
+
   // This function will be called when an option is selected
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
     // Call the corresponding model function based on selected option
     if (event.target.value === '1') {
-      callModel1(id); // Pass the pet ID to the API function
+      callModel1(petName, petBreed, petType); // Pass the pet info to the API function
     } else if (event.target.value === '2') {
-      callModel2(id); // Pass the pet ID to the API function
+      callModel2(petName, petBreed, petType);
     } else if (event.target.value === '3') {
-      callModel3(id); // Pass the pet ID to the API function
+      callModel3(petName, petBreed, petType);
     }
   };
 
   // Placeholder API functions
-  const callModel1 = (petId) => {
-    console.log(`Calling Model 1 for Pet ID: ${petId}`);
-    // Implement API call for Model 1 here
+  const callModel1 = (name, breed, type) => {
+    console.log(`Calling Model 1 for ${name}, ${breed}, ${type}`);
     setMessages([...messages, { text: 'Model 1: How can I assist you?', sender: 'bot' }]);
   };
 
-  const callModel2 = (petId) => {
-    console.log(`Calling Model 2 for Pet ID: ${petId}`);
-    // Implement API call for Model 2 here
+  const callModel2 = (name, breed, type) => {
+    console.log(`Calling Model 2 for ${name}, ${breed}, ${type}`);
     setMessages([...messages, { text: 'Model 2: How can I assist you?', sender: 'bot' }]);
   };
 
-  const callModel3 = (petId) => {
-    console.log(`Calling Model 3 for Pet ID: ${petId}`);
-    // Implement API call for Model 3 here
+  const callModel3 = (name, breed, type) => {
+    console.log(`Calling Model 3 for ${name}, ${breed}, ${type}`);
     setMessages([...messages, { text: 'Model 3: How can I assist you?', sender: 'bot' }]);
   };
 
@@ -53,7 +59,7 @@ const PetHelp = () => {
       <div className={styles.container}>
         <div className={styles.header}>
           <h1 className={styles.title}>Pet Help</h1>
-          <p>You're asking for help for Pet ID: {id}</p>
+          <p>You're asking for help for: {petName} ({petType}, {petBreed})</p>
         </div>
 
         <div className={styles.dropdownContainer}>
