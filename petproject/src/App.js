@@ -5,7 +5,8 @@ import GoogleSignIn from "./components/GoogleSignIn";
 import Dashboard from "./components/Dashboard";
 import AddPet from "./components/AddPet";
 import PetDetails from "./components/PetDetails";
-import PetInfoEditor from "./components/PetInfoEditor"; // Import the new component
+import PetInfoEditor from "./components/PetInfoEditor"; 
+import PetHelp from "./components/petHelp"; 
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 
@@ -61,6 +62,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <PetInfoEditor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/petHelp/:id" // New route to petHelp with petId
+            element={
+              <ProtectedRoute>
+                <PetHelp />
               </ProtectedRoute>
             }
           />

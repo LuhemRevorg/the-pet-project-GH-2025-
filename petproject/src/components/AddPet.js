@@ -9,8 +9,14 @@ const AddPet = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [image, setImage] = useState(null);
-  const [vaccination, setVaccination] = useState({ vaccineName: "", vaccineDate: "", certificate: null });
-  const [diet, setDiet] = useState("");
+  const [vaccination, setVaccination] = useState([]);
+  const [diet, setDiet] = useState({
+    morning: "",
+    afternoon: "",
+    evening: "",
+    night: "",
+  });
+  const [allergies, setAllergies] = useState("");
   const [personalInfo, setPersonalInfo] = useState({
     sex: "",
     size: "",
@@ -21,6 +27,19 @@ const AddPet = () => {
   });
 
   const navigate = useNavigate();
+
+  const handleVaccinationSubmit = () => {
+    setVaccination([
+      ...vaccination,
+      { vaccineName: "", vaccineDate: "", certificate: null },
+    ]);
+  };
+
+  const handleVaccinationChange = (index, e) => {
+    const newVaccination = [...vaccination];
+    newVaccination[index][e.target.name] = e.target.value;
+    setVaccination(newVaccination);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +70,7 @@ const AddPet = () => {
         imageUrl,
         vaccination,
         diet,
+        allergies,
         personalInfo,
         userId: auth.currentUser.uid, // Associate pet with the authenticated user
       });
@@ -65,6 +85,7 @@ const AddPet = () => {
     <div className={styles.addPetContainer}>
       <h1>Add a New Pet</h1>
       <form className={styles.petForm} onSubmit={handleSubmit}>
+        {/* Pet Info Section */}
         <div className={styles.formSection}>
           <h2>Pet Info</h2>
           <input
@@ -83,41 +104,103 @@ const AddPet = () => {
           />
         </div>
 
+        {/* Vaccination Section */}
         <div className={styles.formSection}>
-          <h2>Vaccination Data</h2>
-          <input
-            type="text"
-            placeholder="Vaccine Name"
-            value={vaccination.vaccineName}
-            onChange={(e) =>
-              setVaccination({ ...vaccination, vaccineName: e.target.value })
-            }
-          />
-          <input
-            type="date"
-            value={vaccination.vaccineDate}
-            onChange={(e) =>
-              setVaccination({ ...vaccination, vaccineDate: e.target.value })
-            }
-          />
-          <input
-            type="file"
-            accept="application/pdf"
-            onChange={(e) =>
-              setVaccination({ ...vaccination, certificate: e.target.files[0] })
-            }
+          <h2>Vaccination Records</h2>
+          {vaccination.map((vaccine, index) => (
+            <div key={index}>
+              <input
+                type="text"
+                name="vaccineName"
+                placeholder="Vaccine Name"
+                value={vaccine.vaccineName}
+                onChange={(e) => handleVaccinationChange(index, e)}
+              />
+              <input
+                type="date"
+                name="vaccineDate"
+                value={vaccine.vaccineDate}
+                onChange={(e) => handleVaccinationChange(index, e)}
+              />
+              <input
+                type="file"
+                accept="application/pdf"
+                name="certificate"
+                onChange={(e) => {
+                  const newVaccination = [...vaccination];
+                  newVaccination[index].certificate = e.target.files[0];
+                  setVaccination(newVaccination);
+                }}
+              />
+            </div>
+          ))}
+          <button type="button" onClick={handleVaccinationSubmit}>
+            Add Another Vaccine
+          </button>
+
+          {/* Vaccine Table */}
+          {vaccination.length > 0 && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Vaccine Name</th>
+                  <th>Vaccine Date</th>
+                  <th>Certificate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {vaccination.map((vaccine, index) => (
+                  <tr key={index}>
+                    <td>{vaccine.vaccineName}</td>
+                    <td>{vaccine.vaccineDate}</td>
+                    <td>{vaccine.certificate ? "Uploaded" : "Not Uploaded"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+
+        {/* Allergy Section */}
+        <div className={styles.formSection}>
+          <h2>Allergy Details</h2>
+          <textarea
+            placeholder="Describe any allergies"
+            value={allergies}
+            onChange={(e) => setAllergies(e.target.value)}
           />
         </div>
 
+        {/* Pet Diet Section */}
         <div className={styles.formSection}>
           <h2>Pet Diet</h2>
-          <textarea
-            placeholder="Pet Diet (What it usually eats)"
-            value={diet}
-            onChange={(e) => setDiet(e.target.value)}
+          <input
+            type="text"
+            placeholder="Morning"
+            value={diet.morning}
+            onChange={(e) => setDiet({ ...diet, morning: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Afternoon"
+            value={diet.afternoon}
+            onChange={(e) => setDiet({ ...diet, afternoon: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Evening"
+            value={diet.evening}
+            onChange={(e) => setDiet({ ...diet, evening: e.target.value })}
+          />
+          <input
+            type="text"
+            placeholder="Night"
+            value={diet.night}
+            onChange={(e) => setDiet({ ...diet, night: e.target.value })}
           />
         </div>
 
+        {/* Personal Info Section */}
         <div className={styles.formSection}>
           <h2>Pet Personal Info</h2>
           <input
@@ -167,17 +250,17 @@ const AddPet = () => {
               setPersonalInfo({ ...personalInfo, description: e.target.value })
             }
           />
-        <h2>Pet Profile Picture</h2>
-            <div className={styles.formSection}>
-            <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setImage(e.target.files[0])}
-            />
-            </div>
-
         </div>
-        
+
+        {/* Pet Profile Picture Section */}
+        <div className={styles.formSection}>
+          <h2>Pet Profile Picture</h2>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+          />
+        </div>
 
         <button type="submit">Add Pet</button>
       </form>

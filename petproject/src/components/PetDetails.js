@@ -38,16 +38,72 @@ const PetDetail = () => {
           Edit
         </button>
       </div>
-      <p>Age: {pet.age}</p>
-      <div className={styles.chatbox}>
-        {/* Placeholder for chatbox */}
-        <p>Chatbox for pet: {pet.name} (API integration coming soon)</p>
+      <div className={styles.basicInfo}>
+        <p><strong>Age:</strong> {pet.age}</p>
+        <p><strong>Breed:</strong> {pet.breed}</p>
+        <p><strong>Health:</strong> {pet.health}</p>
+        <p><strong>Sex:</strong> {pet.sex}</p>
+        <p><strong>Size:</strong> {pet.size}</p>
+        <p><strong>Personality:</strong> {pet.personality}</p>
       </div>
+
+      <div className={styles.description}>
+        <h3>Description</h3>
+        <p>{pet.description || "No description available"}</p>
+      </div>
+
+      <div className={styles.imageContainer}>
+        <h3>Pet Image</h3>
+        <img src={pet.imageUrl || "/path/to/default/image.jpg"} alt={pet.name} />
+      </div>
+
+      <div className={styles.vaccinationRecords}>
+        <h3>Vaccination Records</h3>
+        {pet.vaccination && pet.vaccination.length > 0 ? (
+          pet.vaccination.map((record, index) => (
+            <div key={index} className={styles.vaccineRecord}>
+              <p><strong>Vaccine Name:</strong> {record.vaccineName}</p>
+              <p><strong>Vaccine Date:</strong> {record.vaccineDate}</p>
+              <p><strong>Certificate:</strong> {record.certificate ? "Uploaded" : "Not available"}</p>
+            </div>
+          ))
+        ) : (
+          <p>No vaccination records available.</p>
+        )}
+      </div>
+
+      <div className={styles.allergyDetails}>
+        <h3>Allergy Details</h3>
+        <p>{pet.allergy || "No known allergies"}</p>
+      </div>
+
+      <div className={styles.dietSchedule}>
+        <h3>Diet Schedule</h3>
+        <p><strong>Morning:</strong> {pet.diet?.morning || "Not specified"}</p>
+        <p><strong>Afternoon:</strong> {pet.diet?.afternoon || "Not specified"}</p>
+        <p><strong>Evening:</strong> {pet.diet?.evening || "Not specified"}</p>
+        <p><strong>Night:</strong> {pet.diet?.night || "Not specified"}</p>
+      </div>
+
+      <div className={styles.chatbox}>
+        <h3>Chatbox</h3>
+        <p>Chat with your pet: {pet.name} (API integration coming soon)</p>
+      </div>
+
       <div className={styles.stats}>
-        <div className={styles.statBox}>Stat 1: {/* Stat value */}</div>
-        <div className={styles.statBox}>Stat 2: {/* Stat value */}</div>
-        <div className={styles.statBox}>Stat 3: {/* Stat value */}</div>
-        <div className={styles.statBox}>Stat 4: {/* Stat value */}</div>
+        <h3>Pet Stats</h3>
+        <div className={styles.statBox}>
+          <strong>Stat 1:</strong> {/* Add stat value */}
+        </div>
+        <div className={styles.statBox}>
+          <strong>Stat 2:</strong> {/* Add stat value */}
+        </div>
+        <div className={styles.statBox}>
+          <strong>Stat 3:</strong> {/* Add stat value */}
+        </div>
+        <div className={styles.statBox}>
+          <strong>Stat 4:</strong> {/* Add stat value */}
+        </div>
       </div>
     </div>
   );

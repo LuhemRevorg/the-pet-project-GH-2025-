@@ -1,15 +1,16 @@
-/* Container for the whole dashboard layout */
+/* Dashboard Container */
 .dashboardContainer {
     display: flex;
-    height: 100vh;
-    background-color: #f6f8fc; /* Light, clean background color */
+    height: auto;
+    min-height: 100vh;
+    background-color: #f6f8fc;
     font-family: "Poppins", sans-serif;
   }
   
-  /* Sidebar styling */
+  /* Sidebar */
   .sidebar {
     width: 20%;
-    background-color: #1f2937; /* Dark sidebar background */
+    background-color: #1f2937;
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -44,7 +45,7 @@
     background-color: #475569;
   }
   
-  /* Main Content Styling */
+  /* Main Content */
   .mainContent {
     width: 80%;
     padding: 40px;
@@ -53,82 +54,135 @@
     gap: 20px;
   }
   
-  /* Welcome Message */
-  .welcomeMessage {
-    font-size: 2.5rem;
-    color: #1f2937;
-  }
-  
-  .subtext {
-    font-size: 1.1rem;
-    color: #4b5563;
-    margin-bottom: 20px;
-  }
-  
-  /* Text Prompt Interface */
-  .textPrompt {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .textArea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 1rem;
-    resize: none;
-    outline: none;
-  }
-  
-  /* Feature Grid for Template Boxes */
-  .featureGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  /* Pet Detail Section */
+  .petDetailContainer {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
   }
   
-  .templateBox {
-    background-color: #ffffff;
-    border-radius: 12px;
-    padding: 20px;
+  .petDetailSection {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    gap: 20px;
+    flex-wrap: wrap;
   }
-  
-  .templateBox:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
-  }
-  
-  .templateText {
-    font-size: 1.1rem;
-    color: #1f2937;
-  }
-  
-  /* Go Back Button */
-  button {
-    align-self: flex-start;
+
+  .petHelpButton {
     padding: 10px 20px;
-    background-color: #3b82f6;
+    background-color: #ffc560;
     color: #ffffff;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: background-color 0.3s ease;
+  }
+
+  .petHelpButton:hover {
+    background-color: #97712f;
   }
   
-  button:hover {
+  /* Pet Detail Card */
+  .petDetailCard {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 45%;
+    
+  }
+
+/* PetDetailCardVaccine.module.css */
+.petDetailCardVaccine {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+  }
+  
+  .vaccineTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .vaccineTable th,
+  .vaccineTable td {
+    text-align: left;
+    padding: 12px 15px;
+  }
+  
+  .vaccineTable th {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.1rem;
+  }
+  
+  .vaccineTable td {
+    background-color: #f9f9f9;
+    font-size: 1rem;
+  }
+  
+  .vaccineTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .vaccineTable tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .vaccineTable td,
+  .vaccineTable th {
+    border: 1px solid #ddd;
+  }
+  
+  .vaccineTable th,
+  .vaccineTable td {
+    border-radius: 5px;
+  }
+  
+  .vaccineTable td {
+    text-align: center;
+  }
+  
+  
+  .petDetailCard h3 {
+    font-size: 1.5rem;
+    color: #1f2937;
+  }
+  
+  .petDetailCard p {
+    color: #4b5563;
+  }
+  
+  /* Buttons */
+  .editButton, button {
+    padding: 10px 20px;
+    background-color: #3b82f6;
+    max-width: 300px;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .editButton:hover, button:hover {
     background-color: #2563eb;
-    transform: scale(1.05);
+  }
+  
+  /* Form Styling */
+  .petEditForm input {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    width: 100%;
+  }
+
+  .horizontalLine {
+    border: 1px solid #123;
+
   }
   
   /* Responsive Design */
@@ -141,7 +195,6 @@
       width: 100%;
       flex-direction: row;
       justify-content: space-around;
-      box-shadow: none;
     }
   
     .mainContent {

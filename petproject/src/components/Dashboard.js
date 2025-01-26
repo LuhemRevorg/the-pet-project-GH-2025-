@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Import Link
+import { useNavigate } from "react-router-dom"; 
 import styles from "../styling/Dashboard.module.css";
 import { auth, db } from "../firebase";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [pets, setPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(null); // State to hold the selected pet
-  const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -32,18 +32,35 @@ const Dashboard = () => {
     navigate("/add-pet");
   };
 
-  const handlePetClick = (pet) => {
-    setSelectedPet(pet); // Set selected pet when clicked
-    setIsEditing(false);  // Reset editing mode when viewing pet details
+  const handlePetClick = async (pet) => {
+    setSelectedPet(pet);
+    setIsEditing(false);
+
+    const petRef = doc(db, "pets", pet.id);
+    const petDoc = await getDoc(petRef);
+
+    if (petDoc.exists()) {
+      setSelectedPet(petDoc.data());
+    } else {
+      console.log("No such document!");
+    }
   };
 
   const handleEditPet = () => {
-    setIsEditing(true);  // Switch to edit mode
+    setIsEditing(true);
   };
 
-  const handleSavePet = (updatedPet) => {
-    // Update the pet in the database (you will need to implement this function)
-    // After saving, set editing back to false and display the updated pet details
+  const handlePetHelp = (petId) => {
+    navigate(`/petHelp/${petId}`);
+  }
+
+  const handleHome = () => {
+    navigate("/");
+  }
+
+  const handleSavePet = async (updatedPet) => {
+    const petRef = doc(db, "pets", updatedPet.id);
+    await updateDoc(petRef, updatedPet);
     setSelectedPet(updatedPet);
     setIsEditing(false);
   };
@@ -63,25 +80,63 @@ const Dashboard = () => {
           </li>
         </ul>
       </div>
+
       <div className={styles.mainContent}>
         {selectedPet ? (
           !isEditing ? (
             <div className={styles.petDetailContainer}>
-              <h2>{selectedPet.name}</h2>
-              <button className={styles.editButton} onClick={handleEditPet}>
-                Edit
-              </button>
-              <p>Age: {selectedPet.age}</p>
-              <div className={styles.chatbox}>
-                {/* Placeholder for chatbox */}
-                <p>Chatbox for pet: {selectedPet.name} (API integration coming soon)</p>
+              <h2 className={styles.petName}>{selectedPet.name}</h2>
+              <button className={styles.petHelpButton} onClick={() => handlePetHelp(selectedPet.name)}>Pet Help</button>
+              <div className={styles.petDetailSection}>
+                <div className={styles.petDetailCard}>
+                  <h3>Basic Information</h3>
+                  <p><strong>Age:</strong> {selectedPet.age}</p>
+                  <p><strong>Breed:</strong> {selectedPet.breed}</p>
+                  <p><strong>Description:</strong> {selectedPet.description}</p>
+                  <p><strong>Health:</strong> {selectedPet.health}</p>
+                  <p><strong>Personality:</strong> {selectedPet.personality}</p>
+                  <p><strong>Sex:</strong> {selectedPet.sex}</p>
+                  <p><strong>Size:</strong> {selectedPet.size}</p>
+                  <p><strong>Allergies:</strong> {selectedPet.allergy || "No known allergies"}</p>
+                </div>
+                
+                <div className={styles.petDetailCard}>
+                  <h3>Diet Schedule</h3>
+                  <p><strong>Morning:</strong> {selectedPet.diet?.morning || "Not specified"}</p>
+                  <p><strong>Afternoon:</strong> {selectedPet.diet?.afternoon || "Not specified"}</p>
+                  <p><strong>Evening:</strong> {selectedPet.diet?.evening || "Not specified"}</p>
+                  <p><strong>Night:</strong> {selectedPet.diet?.night || "Not specified"}</p>
+                </div>
+                
+                <div className={styles.petDetailCardVaccine}>
+                  <h3>Vaccination Records</h3>
+                  {selectedPet.vaccination && selectedPet.vaccination.length > 0 ? (
+                    <table className={styles.vaccineTable}>
+                      <thead>
+                        <tr>
+                          <th>Vaccine Name</th>
+                          <th>Vaccine Date</th>
+                          <th>Certificate</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {selectedPet.vaccination.map((record, index) => (
+                          <tr key={index}>
+                            <td>{record.vaccineName}</td>
+                            <td>{record.vaccineDate}</td>
+                            <td>{record.certificate ? "Uploaded" : "Not available"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p>No vaccination records available.</p>
+                  )}
+                </div>
+
               </div>
-              <div className={styles.stats}>
-                <div className={styles.statBox}>Stat 1: {/* Stat value */}</div>
-                <div className={styles.statBox}>Stat 2: {/* Stat value */}</div>
-                <div className={styles.statBox}>Stat 3: {/* Stat value */}</div>
-                <div className={styles.statBox}>Stat 4: {/* Stat value */}</div>
-              </div>
+              <button className={styles.editButton} onClick={handleEditPet}>Edit</button>
+              <button className={styles.editButton} onClick={handleHome}>Return To Home</button>
             </div>
           ) : (
             <div className={styles.petEditForm}>
@@ -89,11 +144,11 @@ const Dashboard = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // On form submit, save the updated pet data
                   const updatedPet = {
                     ...selectedPet,
                     name: e.target.name.value,
                     age: e.target.age.value,
+                    // Update other fields as needed
                   };
                   handleSavePet(updatedPet);
                 }}
@@ -122,7 +177,7 @@ const Dashboard = () => {
             </div>
           )
         ) : (
-          <p>Select a pet to view or edit its details.</p> // Add fallback if no pet is selected
+          <p>Select a pet to view or edit its details.</p>
         )}
       </div>
     </div>

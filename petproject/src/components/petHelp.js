@@ -1,0 +1,112 @@
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import styles from '../styling/petHelp.module.css';
+ 
+const PetHelp = () => {
+  const { id } = useParams(); // Get the petId from the URL
+  const [selectedOption, setSelectedOption] = useState('');
+  const [messages, setMessages] = useState([]);
+  const navigate = useNavigate();
+  const handleHome = () => {
+    navigate("/");
+  }
+  // This function will be called when an option is selected
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
+    // Call the corresponding model function based on selected option
+    if (event.target.value === '1') {
+      callModel1(id); // Pass the pet ID to the API function
+    } else if (event.target.value === '2') {
+      callModel2(id); // Pass the pet ID to the API function
+    } else if (event.target.value === '3') {
+      callModel3(id); // Pass the pet ID to the API function
+    }
+  };
+
+  // Placeholder API functions
+  const callModel1 = (petId) => {
+    console.log(`Calling Model 1 for Pet ID: ${petId}`);
+    // Implement API call for Model 1 here
+    setMessages([...messages, { text: 'Model 1: How can I assist you?', sender: 'bot' }]);
+  };
+
+  const callModel2 = (petId) => {
+    console.log(`Calling Model 2 for Pet ID: ${petId}`);
+    // Implement API call for Model 2 here
+    setMessages([...messages, { text: 'Model 2: How can I assist you?', sender: 'bot' }]);
+  };
+
+  const callModel3 = (petId) => {
+    console.log(`Calling Model 3 for Pet ID: ${petId}`);
+    // Implement API call for Model 3 here
+    setMessages([...messages, { text: 'Model 3: How can I assist you?', sender: 'bot' }]);
+  };
+
+  const handleSendMessage = () => {
+    if (selectedOption) {
+      setMessages([...messages, { text: `You: ${selectedOption}`, sender: 'user' }]);
+    }
+  };
+
+  return (
+    <div className={styles.bigContainer}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1 className={styles.title}>Pet Help</h1>
+          <p>You're asking for help for Pet ID: {id}</p>
+        </div>
+
+        <div className={styles.dropdownContainer}>
+          <label htmlFor="options">Choose an option:</label>
+          <select
+            id="options"
+            className={styles.dropdown}
+            value={selectedOption}
+            onChange={handleOptionChange}
+          >
+            <option value="">Select an option</option>
+            <option value="1">Option 1 (Model 1)</option>
+            <option value="2">Option 2 (Model 2)</option>
+            <option value="3">Option 3 (Model 3)</option>
+          </select>
+          <div className={styles.selectedOptionText}>
+            {selectedOption && <p>You selected Option {selectedOption}. The corresponding model is being called.</p>}
+          </div>
+        </div>
+
+        <div className={styles.chatbox}>
+          <div className={styles.messageContainer}>
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`${styles.message} ${msg.sender === 'bot' ? styles.botMessage : ''}`}
+              >
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.inputContainer}>
+            <input
+              type="text"
+              className={styles.inputField}
+              value={selectedOption}
+              onChange={(e) => setSelectedOption(e.target.value)}
+              placeholder="Type your message"
+            />
+            <button className={styles.sendButton} onClick={handleSendMessage}>
+              Send
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <button className={styles.editButton} onClick={handleHome}>Return To Home</button>
+        </div>
+      </div>
+
+    </div>
+  );
+};
+
+export default PetHelp;
