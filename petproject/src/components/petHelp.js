@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../styling/petHelp.module.css';
+import diet_decide from './Diet';
  
 const PetHelp = () => {
   const { id } = useParams(); // Get the petId from the URL
@@ -17,7 +18,7 @@ const PetHelp = () => {
     if (event.target.value === '1') {
       callModel1(id); // Pass the pet ID to the API function
     } else if (event.target.value === '2') {
-      callModel2(id); // Pass the pet ID to the API function
+      diet_decide(selected); // Pass the pet ID to the API function
     } else if (event.target.value === '3') {
       callModel3(id); // Pass the pet ID to the API function
     }
@@ -65,8 +66,8 @@ const PetHelp = () => {
             onChange={handleOptionChange}
           >
             <option value="">Select an option</option>
-            <option value="1">Option 1 (Model 1)</option>
-            <option value="2">Option 2 (Model 2)</option>
+            <option value="1">Disease Recognition</option>
+            <option value="2">Diet Recommendation</option>
             <option value="3">Option 3 (Model 3)</option>
           </select>
           <div className={styles.selectedOptionText}>
