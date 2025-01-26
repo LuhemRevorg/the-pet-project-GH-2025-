@@ -50,10 +50,11 @@ const Dashboard = () => {
     setIsEditing(true);
   };
 
-  const handlePetHelp = (petId, petBreed, petType) => {
-    navigate(`/petHelp/${petId}`);
-  }
-
+  const handlePetHelp = (name, breed, type) => {
+    // Navigate with query parameters using the URLSearchParams API
+    navigate(`/petHelp?name=${name}&breed=${breed}&type=${type}`);
+  };
+ 
   const handleHome = () => {
     navigate("/");
   }
@@ -91,6 +92,7 @@ const Dashboard = () => {
                 <div className={styles.petDetailCard}>
                   <h3>Basic Information</h3>
                   <p><strong>Age:</strong> {selectedPet.age}</p>
+                  <p><strong>Type:</strong> {selectedPet.type}</p>
                   <p><strong>Breed:</strong> {selectedPet.breed}</p>
                   <p><strong>Description:</strong> {selectedPet.description}</p>
                   <p><strong>Health:</strong> {selectedPet.health}</p>
@@ -171,6 +173,7 @@ const Dashboard = () => {
                     required
                   />
                 </div>
+                
                 <button type="submit">Save</button>
               </form>
               <button onClick={() => setIsEditing(false)}>Cancel</button>

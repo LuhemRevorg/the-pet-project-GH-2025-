@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AddPet = () => {
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
+  const [type, setType] = useState("");
   const [image, setImage] = useState(null);
   const [vaccination, setVaccination] = useState([]);
   const [diet, setDiet] = useState({
@@ -67,6 +68,7 @@ const AddPet = () => {
       await addDoc(collection(db, "pets"), {
         name,
         age,
+        type,
         imageUrl,
         vaccination,
         diet,
@@ -99,6 +101,13 @@ const AddPet = () => {
             type="number"
             placeholder="Pet Age"
             value={age}
+            onChange={(e) => setAge(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Pet type (Dog? Cat?)..."
+            value={type}
             onChange={(e) => setAge(e.target.value)}
             required
           />
