@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styles from '../styling/petHelp.module.css';
 
 import diet_decide from './Diet';
+import disease_find from './Disease';
 
 const PetHelp = () => {
   // Get the pet data from the URL path parameters
@@ -26,28 +27,10 @@ const PetHelp = () => {
     setSelectedOption(event.target.value);
     // Call the corresponding model function based on selected option
     if (event.target.value === '1') {
-      callModel1(petName, messages); // Pass the pet info to the API function
+      disease_find(petName, messages); // Pass the pet info to the API function
     } else if (event.target.value === '2') {
       diet_decide(petName, petBreed, petType); // Pass the pet ID to the API function
-    } else if (event.target.value === '3') {
-      callModel3(petName, petBreed, petType);
     }
-  };
-
-  // Placeholder API functions
-  const callModel1 = (name, breed, type) => {
-    console.log(`Calling Model 1 for ${name}, ${breed}, ${type}`);
-    setMessages([...messages, { text: 'Model 1: How can I assist you?', sender: 'bot' }]);
-  };
-
-  const callModel2 = (name, breed, type) => {
-    console.log(`Calling Model 2 for ${name}, ${breed}, ${type}`);
-    setMessages([...messages, { text: 'Model 2: How can I assist you?', sender: 'bot' }]);
-  };
-
-  const callModel3 = (name, breed, type) => {
-    console.log(`Calling Model 3 for ${name}, ${breed}, ${type}`);
-    setMessages([...messages, { text: 'Model 3: How can I assist you?', sender: 'bot' }]);
   };
 
   const handleSendMessage = () => {
@@ -75,7 +58,6 @@ const PetHelp = () => {
             <option value="">Select an option</option>
             <option value="1">Disease Recognition</option>
             <option value="2">Diet Recommendation</option>
-            <option value="3">Option 3 (Model 3)</option>
           </select>
           <div className={styles.selectedOptionText}>
             {selectedOption && <p>You selected Option {selectedOption}. The corresponding model is being called.</p>}
