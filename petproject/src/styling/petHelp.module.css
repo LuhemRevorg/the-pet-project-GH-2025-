@@ -4,111 +4,155 @@
   background-size: cover; /* Cover the entire container */
   background-position: center; /* Center the image */
   background-repeat: no-repeat;
-}
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+} 
 
 .container {
-    background-color: #f9f9f9;
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    height: 100vh;
-    
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .title {
-    font-size: 2rem;
-    color: #333;
-  }
-  
-  .chatbox {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 20px;
-    max-height: 400px;
-    overflow-y: auto;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .messageContainer {
-    margin-bottom: 15px;
-  }
-  
-  .message {
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #e1f5fe;
-    max-width: 80%;
-    margin-bottom: 10px;
-    align-self: flex-start;
-  }
-  
-  .botMessage {
-    background-color: #f1f1f1;
-    align-self: flex-end;
-  }
-  
-  .inputContainer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .inputField {
-    width: 80%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-  }
-  
-  .sendButton {
-    width: 15%;
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  
-  .sendButton:hover {
-    background-color: #0056b3;
-  }
-  
-  .dropdownContainer {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  .dropdown {
-    padding: 10px;
-    font-size: 1rem;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    width: 200px;
-    margin-top: 10px;
-  }
-  
-  .dropdown:hover {
-    background-color: #0056b3;
-  }
-  
-  .selectedOptionText {
-    font-size: 1.1rem;
-    color: #333;
-    margin-top: 10px;
-  }
-  
+  background-color: #ffffff;
+  padding: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  overflow: hidden;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  transform: translatex(-80px);
+}
+
+.title {
+  font-size: 2.2rem;
+  color: #333333;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+}
+
+.chatbox {
+  display: flex;
+  flex-direction: column;
+  background-color: #f7f8fa;
+  border-radius: 10px;
+  padding: 20px;
+  max-height: 500px;
+  overflow-y: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.messageContainer {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  padding: 12px 15px;
+  border-radius: 15px;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #e1f5fe;
+  color: #333333;
+  max-width: 80%;
+  word-wrap: break-word;
+  margin-bottom: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  align-self: flex-start;
+}
+
+.botMessage {
+  background-color: #f1f1f1;
+  color: #555555;
+  align-self: flex-end;
+  font-style: italic;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.inputField {
+  flex: 1;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #cccccc;
+  font-size: 1rem;
+  color: #333333;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.inputField:focus {
+  border-color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sendButton {
+  flex-shrink: 0;
+  padding: 12px 18px;
+  background-color: burlywood;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.sendButton:hover {
+  background-color: burlywood;
+  transform: scale(1.05);
+}
+
+.dropdownContainer {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.dropdown {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: burlywood;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  width: 200px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown:hover {
+  background-color: rgb(165, 110, 42);
+  border: 1px solid white;
+}
+
+.dropdown:focus {
+  outline-color: rgb(165, 110, 42);
+}
+
+.selectedOptionText {
+  font-size: 1.1rem;
+  color: #555555;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.botMessage p,
+.message p {
+  margin: 0;
+  padding: 0;
+}

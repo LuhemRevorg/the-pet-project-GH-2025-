@@ -35,7 +35,7 @@ const AddPet = () => {
       { vaccineName: "", vaccineDate: "", certificate: null },
     ]);
   };
-
+ 
   const handleVaccinationChange = (index, e) => {
     const newVaccination = [...vaccination];
     newVaccination[index][e.target.name] = e.target.value;
@@ -108,7 +108,7 @@ const AddPet = () => {
             type="text"
             placeholder="Pet type (Dog? Cat?)..."
             value={type}
-            onChange={(e) => setAge(e.target.value)}
+            onChange={(e) => setType(e.target.value)}
             required
           />
         </div>

@@ -28,14 +28,14 @@ function GoogleSignIn() {
           alt="Cute paw logo"
           className={styles.logo}
         />
-        <h1 className={styles.heading}>Welcome to Petify</h1>
+        <h1 className={styles.heading}>Welcome to PawPal</h1>
         <p className={styles.subtext}>Your furry friend's favorite place!</p>
         <button className={styles.googleButton} onClick={handleGoogleSignIn}>
           <img
             src={GOOGLELOGO}
             alt="Google Icon"
             className={styles.googleIcon}
-          />
+          /> 
           Sign in with Google
         </button>
       </div>
