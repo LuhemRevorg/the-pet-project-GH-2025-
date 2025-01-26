@@ -39,12 +39,16 @@ const PetDetail = () => {
         </button>
       </div>
       <div className={styles.basicInfo}>
-        <p><strong>Age:</strong> {pet.age}</p>
-        <p><strong>Breed:</strong> {pet.breed}</p>
+      <div>
+        
+        <p><strong>Age:</strong> {pet.personalInfo.age}</p>
+        <p><strong>Breed:</strong> {pet.personalInfo.breed}</p>
         <p><strong>Health:</strong> {pet.health}</p>
         <p><strong>Sex:</strong> {pet.sex}</p>
         <p><strong>Size:</strong> {pet.size}</p>
         <p><strong>Personality:</strong> {pet.personality}</p>
+      </div>
+        
       </div>
 
       <div className={styles.description}>
@@ -88,22 +92,6 @@ const PetDetail = () => {
       <div className={styles.chatbox}>
         <h3>Chatbox</h3>
         <p>Chat with your pet: {pet.name} (API integration coming soon)</p>
-      </div>
-
-      <div className={styles.stats}>
-        <h3>Pet Stats</h3>
-        <div className={styles.statBox}>
-          <strong>Stat 1:</strong> {/* Add stat value */}
-        </div>
-        <div className={styles.statBox}>
-          <strong>Stat 2:</strong> {/* Add stat value */}
-        </div>
-        <div className={styles.statBox}>
-          <strong>Stat 3:</strong> {/* Add stat value */}
-        </div>
-        <div className={styles.statBox}>
-          <strong>Stat 4:</strong> {/* Add stat value */}
-        </div>
       </div>
     </div>
   );

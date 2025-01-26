@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import styles from "../styling/Dashboard.module.css";
 import { auth, db } from "../firebase";
-import { collection, query, where, getDocs, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import PAWS from "../images/pwpw.png";
+import KUTTTABC from "../images/dogge.gif";
+import SIDEBARPiC from "../images/dashhh.png";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -32,19 +35,26 @@ const Dashboard = () => {
     navigate("/add-pet");
   };
 
+  const handleSignOut = () => {
+    navigate("/");
+  }
+
   const handlePetClick = async (pet) => {
     setSelectedPet(pet);
     setIsEditing(false);
-
+  
     const petRef = doc(db, "pets", pet.id);
     const petDoc = await getDoc(petRef);
-
+  
     if (petDoc.exists()) {
-      setSelectedPet(petDoc.data());
+      const petData = petDoc.data();
+      console.log("Selected pet:", petData);  // Add this line to log the selected pet
+      setSelectedPet({ id: pet.id, ...petData });
     } else {
       console.log("No such document!");
     }
   };
+  
 
   const handleEditPet = () => {
     setIsEditing(true);
@@ -59,6 +69,29 @@ const Dashboard = () => {
     navigate("/");
   }
 
+  const handleDelete = async (petId) => {
+    console.log("Pet ID received:", petId);
+    if (!petId) {
+      console.error("Error: petId is undefined or invalid.");
+      return;
+    }
+    try {
+      const petRef = doc(db, "pets", petId);
+      console.log("Pet Reference:", petRef.path);
+  
+      await deleteDoc(petRef);
+  
+      setPets((prevPets) => prevPets.filter((pet) => pet.id !== petId));
+      setSelectedPet(null);
+      console.log("Pet successfully deleted!");
+    } catch (error) {
+      console.error("Error deleting pet:", error);
+    }
+  };
+  
+    
+  
+
   const handleSavePet = async (updatedPet) => {
     const petRef = doc(db, "pets", updatedPet.id);
     await updateDoc(petRef, updatedPet);
@@ -68,38 +101,52 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboardContainer}>
-      <div className={styles.sidebar}>
-        <h2>Your Pets</h2>
+              
+      <div className={styles.sidebar}> 
+        <h2 className={styles.topHeader}>Your Pets</h2>
         <ul>
           {pets.map((pet) => (
             <li key={pet.id} className={styles.sidebarItem}>
-              <button onClick={() => handlePetClick(pet)}>{pet.name}</button>
+              <p className={styles.petSide} onClick={() => handlePetClick(pet)}>{pet.name}</p>
             </li>
           ))}
-          <li className={styles.sidebarItem} onClick={handleAddPet}>
+          <li className={styles.sidebarItemAddNew} onClick={handleAddPet}>
             Add Pet
           </li>
         </ul>
+        <img src={SIDEBARPiC} alt="dog" height={200} width={150} className={styles.KUTTAA}/>
+        <button className={styles.DelButton2} onClick={handleSignOut}>Sign Out</button>
       </div>
 
+
+
+
+
+
+
+
       <div className={styles.mainContent}>
+              <div className="gif-container-2">
+                <img src={KUTTTABC} alt="Roaming Dog" className="gif" />
+              </div>
         {selectedPet ? (
           !isEditing ? (
             <div className={styles.petDetailContainer}>
               <h2 className={styles.petName}>{selectedPet.name}</h2>
-              <button className={styles.petHelpButton} onClick={() => handlePetHelp(selectedPet.name, selectedPet.breed, selectedPet.type)}>Pet Help</button>
+              <button className={styles.petHelpButton} onClick={() => handlePetHelp(selectedPet.name, selectedPet.breed, selectedPet.type)}>Take Help !!</button>
+
               <div className={styles.petDetailSection}>
                 <div className={styles.petDetailCard}>
                   <h3>Basic Information</h3>
                   <p><strong>Age:</strong> {selectedPet.age}</p>
                   <p><strong>Type:</strong> {selectedPet.type}</p>
-                  <p><strong>Breed:</strong> {selectedPet.breed}</p>
-                  <p><strong>Description:</strong> {selectedPet.description}</p>
-                  <p><strong>Health:</strong> {selectedPet.health}</p>
-                  <p><strong>Personality:</strong> {selectedPet.personality}</p>
-                  <p><strong>Sex:</strong> {selectedPet.sex}</p>
-                  <p><strong>Size:</strong> {selectedPet.size}</p>
-                  <p><strong>Allergies:</strong> {selectedPet.allergy || "No known allergies"}</p>
+                  <p><strong>Breed:</strong> {selectedPet.personalInfo.breed}</p>
+                  <p><strong>Description:</strong> {selectedPet.personalInfo.description}</p>
+                  <p><strong>Health:</strong> {selectedPet.personalInfo.health}</p>
+                  <p><strong>Personality:</strong> {selectedPet.personalInfo.personality}</p>
+                  <p><strong>Sex:</strong> {selectedPet.personalInfo.sex}</p>
+                  <p><strong>Size:</strong> {selectedPet.personalInfo.size}</p>
+                  <p><strong>Allergies:</strong> {selectedPet.allergies}</p>
                 </div>
                 
                 <div className={styles.petDetailCard}>
@@ -137,8 +184,13 @@ const Dashboard = () => {
                 </div>
 
               </div>
-              <button className={styles.editButton} onClick={handleEditPet}>Edit</button>
-              <button className={styles.editButton} onClick={handleHome}>Return To Home</button>
+              <div>
+                <button className={styles.editButton} onClick={handleEditPet}>Edit</button>
+                <button className={styles.editButton} onClick={handleHome}>Return To Home</button>
+                <button className={styles.DelButton} onClick={() => handleDelete(selectedPet.id)}>Delete Pet</button>
+
+              </div>
+              
             </div>
           ) : (
             <div className={styles.petEditForm}>
@@ -180,7 +232,13 @@ const Dashboard = () => {
             </div>
           )
         ) : (
-          <p>Select a pet to view or edit its details.</p>
+          <div className={styles.default}>
+           <button className={styles.addPetButton} onClick={handleAddPet}>
+            {/* <img src={PAWS} alt="paws" height={40} width={40} /> */}
+              <p>🐾 Paw Me <img src={PAWS} alt="paws" height={40} width={40} /></p>
+            
+          </button> 
+          </div>
         )}
       </div>
     </div>
