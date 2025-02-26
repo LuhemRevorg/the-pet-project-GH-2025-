@@ -12,9 +12,12 @@ PawPal is an innovative AI-powered app designed to give pets a voice and help pe
 🐕 Behavior Tracking: Monitors habits like barking and playing to identify sudden or unusual changes.
 
 🚀 Tech Stack
-Frontend: React.js, CSS
-Backend: Firebase, Google Auth
-AI Integration: OpenAI API
+
+**Frontend**: React.js, CSS
+
+**Backend**: Firebase, Google Auth
+
+**AI Integration**: OpenAI API
 
 💪 Challenges We Overcame
 Designing real-time alerts without overwhelming users.
